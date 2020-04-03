@@ -27,7 +27,8 @@ public class Application {
                         + "   \\ | /\n"
                         + "    \\|/\n"
                         + "     |\n"
-                        + "                       \n";
+                        + "                       \n" +
+                        "Rany ElHousieny";
         System.out.println(welcomeMessage);
     }
 }
