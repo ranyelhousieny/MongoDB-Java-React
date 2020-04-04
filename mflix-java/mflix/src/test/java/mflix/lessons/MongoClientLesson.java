@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.plaf.synth.SynthScrollBarUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,7 @@ public class MongoClientLesson extends AbstractLesson {
 
   private MongoCollection<Document> collection;
 
-  private String uri = "<YOUR SRV STRING from the application.properties file>";
+  private String uri = "mongodb+srv://m220student:m220password@mflix-vwsmv.mongodb.net/test?retryWrites=true&w=majority";
 
   private Document document;
 
@@ -121,7 +122,7 @@ public class MongoClientLesson extends AbstractLesson {
     you need to go over the contents more than once.
      */
 
-    Assert.assertTrue(dbnames.contains("mflix"));
+    Assert.assertTrue(dbnames.contains("sample_mflix"));
 
     /*
     Then we have our MongoDatabase object. We will use this object to
@@ -129,7 +130,7 @@ public class MongoClientLesson extends AbstractLesson {
     database level read preferences, read concerns and write concerns.
      */
 
-    database = mongoClient.getDatabase("mflix");
+    database = mongoClient.getDatabase("sample_mflix");
 
     ReadPreference readPreference = database.getReadPreference();
 
@@ -154,7 +155,7 @@ public class MongoClientLesson extends AbstractLesson {
      */
 
     mongoClient = MongoClients.create(uri);
-    database = mongoClient.getDatabase("mflix");
+    database = mongoClient.getDatabase("sample_mflix");
     collection = database.getCollection("movies");
 
     /*
@@ -172,8 +173,18 @@ public class MongoClientLesson extends AbstractLesson {
     All of our Data Manipulation Language (DML) will be expressed via a
     MongoCollection instance;
      */
-    List<Document> documents = new ArrayList<>();
-    Assert.assertEquals(20, cursor.into(documents).size());
+    ArrayList<Document> documents = new ArrayList<>();
+    cursor.into(documents);
+    List<String> titles = new ArrayList<>();
+    String title = new String();
+    for(int i = 0; i < documents.size(); i++) {
+      title = documents.get(i).get("title").toString();
+      System.out.println(title);
+      titles.add(title);
+    }
+
+
+    Assert.assertEquals(20, documents.size());
   }
 
   @Test
